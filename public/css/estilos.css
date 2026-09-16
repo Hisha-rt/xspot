@@ -1,0 +1,1098 @@
+/* =========================================
+
+GLOBALES Y ESTRUCTURA BASE
+========================================= */
+body {
+margin: 0;
+padding-top: 70px;
+background-image: url('/src/img/fondo.png');
+background-size: cover;
+background-position: center;
+background-repeat: repeat;
+background-attachment: fixed;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+color: #ffffff;
+}
+
+/* =========================================
+2. ENCABEZADO Y NAVEGACIÓN (HEADER)
+========================================= */
+.encabezado {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 70px;
+background-color: #540059;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 20px;
+box-sizing: border-box;
+z-index: 1000;
+border-bottom: 2px solid #3b003f;
+}
+
+.en_izquierda {
+order: 1;
+display: flex;
+align-items: center;
+}
+
+.en_centro {
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+justify-content: center;
+}
+
+.en_derecha {
+order: 3;
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+.logo {
+height: 100px;
+}
+
+.icono {
+width: 25px;
+height: auto;
+cursor: pointer;
+filter: brightness(0) invert(1);
+}
+
+.menu-desplegable {
+position: relative;
+display: inline-block;
+}
+
+.menu-contenido {
+display: none;
+position: absolute;
+background-color: #121212;
+min-width: 160px;
+box-shadow: 0px 8px 16px rgba(0,0,0,0.8);
+z-index: 100;
+border-radius: 8px;
+overflow: hidden;
+top: 40px;
+left: 0;
+border: 1px solid #333;
+}
+
+.menu-contenido a {
+color: white;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+font-size: 14px;
+transition: background-color 0.3s;
+}
+
+.menu-contenido a:hover {
+background-color: #540059;
+}
+
+.menu-contenido.mostrar {
+display: block;
+}
+
+.buscador-header {
+display: flex;
+align-items: center;
+background-color: #1a1a1a;
+border-radius: 20px;
+padding: 2px 10px;
+border: 1px solid #444;
+}
+
+.input-buscar-mini {
+background: transparent;
+border: none;
+color: white;
+outline: none;
+width: 120px;
+font-size: 13px;
+padding: 5px;
+}
+
+.input-buscar-mini::placeholder {
+color: #bbb;
+}
+
+.btn-icono {
+background: transparent;
+border: none;
+cursor: pointer;
+padding: 0;
+display: flex;
+align-items: center;
+}
+
+/* =========================================
+3. PÁGINA DE INICIO (CARRUSEL Y DATOS)
+========================================= */
+.carrusel-kpop {
+position: relative;
+width: 100%;
+overflow: hidden;
+background-color: rgba(0, 0, 0, 0.4);
+padding: 30px 0;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-top: 20px;
+border-top: 1px solid rgba(255,255,255,0.1);
+border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.carrusel-track {
+position: relative;
+width: 100%;
+max-width: 1600px;
+height: 450px;
+display: flex;
+justify-content: center;
+}
+
+.slide {
+position: absolute;
+width: 60%;
+height: 100%;
+border-radius: 15px;
+overflow: hidden;
+transition: all 0.5s ease-in-out;
+opacity: 0;
+z-index: 1;
+transform: scale(0.6);
+pointer-events: none;
+box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+border: 1px solid #333;
+}
+
+.slide img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+}
+
+.slide.active {
+opacity: 1;
+transform: translateX(0) scale(1);
+z-index: 3;
+pointer-events: auto;
+}
+
+.slide.prev {
+opacity: 0.35;
+transform: translateX(-65%) scale(0.85);
+z-index: 2;
+}
+
+.slide.next {
+opacity: 0.35;
+transform: translateX(65%) scale(0.85);
+z-index: 2;
+}
+
+.slide-info {
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
+padding: 60px 30px 20px 30px;
+box-sizing: border-box;
+text-align: left;
+}
+
+.slide-info h3 {
+color: #FF77CD;
+margin: 0 0 5px 0;
+font-size: 28px;
+text-transform: uppercase;
+}
+
+.slide-info p {
+color: #FFFFFF;
+margin: 0;
+font-size: 16px;
+}
+
+.flecha {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+background: rgba(0, 0, 0, 0.6);
+color: white;
+border: 1px solid #444;
+font-size: 30px;
+padding: 15px 20px;
+cursor: pointer;
+z-index: 10;
+border-radius: 50%;
+transition: background 0.3s;
+}
+
+.flecha:hover {
+background: #FF77CD;
+color: #1a1a1a;
+}
+
+.flecha-izq { left: 3%; }
+.flecha-der { right: 3%; }
+
+.seccion-datos {
+padding: 40px 20px;
+text-align: center;
+background-color: rgba(18, 18, 18, 0.6);
+margin-top: 40px;
+}
+
+.datos-grid {
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+gap: 40px;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.dato-item {
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 150px;
+}
+
+.circulo {
+width: 90px;
+height: 90px;
+border-radius: 50%;
+background-color: #540059;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 15px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+border: 2px solid #FF77CD;
+transition: all 0.3s ease;
+}
+
+.circulo:hover {
+transform: scale(1.1);
+background-color: #FF77CD;
+}
+
+.circulo img {
+width: 40px;
+height: auto;
+filter: brightness(0) invert(1);
+}
+
+.dato-item p {
+font-size: 15px;
+color: #ffffff;
+margin: 0;
+line-height: 1.3;
+}
+
+.nota-asterisco {
+font-size: 13px;
+color: #ffffff;
+margin-top: 30px;
+font-style: italic;
+}
+
+/* =========================================
+4. CATÁLOGO PÚBLICO, BÚSQUEDA E INVENTARIO
+========================================= */
+.store-container, .admin-container {
+max-width: 1100px;
+margin: 40px auto;
+padding: 30px;
+color: #ffffff;
+background-color: rgba(18, 18, 18, 0.92);
+border-radius: 12px;
+box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+border: 1px solid #333;
+}
+
+.store-container h1, .admin-container h2 {
+text-align: center;
+color: #FF77CD;
+margin-bottom: 30px;
+border-bottom: 2px solid #333;
+padding-bottom: 15px;
+}
+
+.barra-filtros {
+display: flex;
+gap: 15px;
+margin-bottom: 40px;
+justify-content: center;
+flex-wrap: wrap;
+}
+
+.input-filtro, .input-form, .select-estado {
+padding: 12px 15px;
+border-radius: 8px;
+border: 1px solid #444;
+background-color: #2b2b2b;
+color: white;
+min-width: 220px;
+outline: none;
+font-size: 14px;
+}
+
+.input-filtro:focus, .input-form:focus, .select-estado:focus {
+border-color: #FF77CD;
+box-shadow: 0 0 0 2px rgba(255, 119, 205, 0.3);
+}
+
+.btn-buscar, .btn-primario {
+padding: 12px 25px;
+border-radius: 8px;
+background-color: #540059;
+color: white;
+border: none;
+cursor: pointer;
+transition: all 0.3s;
+}
+
+.btn-buscar:hover, .btn-primario:hover {
+background-color: #FF77CD;
+color: #1a1a1a;
+transform: translateY(-2px);
+}
+
+.grid-productos {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+gap: 25px;
+}
+
+.tarjeta-producto {
+background-color: #1a1a1a;
+border-radius: 12px;
+overflow: hidden;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+border: 1px solid #333;
+display: flex;
+flex-direction: column;
+height: 100%;
+}
+
+.tarjeta-producto:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 20px rgba(255, 119, 205, 0.2);
+}
+
+.imagen-container {
+width: 100%;
+height: 250px;
+background-color: #111;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+}
+
+.imagen-container img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+.info-tarjeta {
+padding: 20px;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+flex-grow: 1;
+}
+
+.info-superior {
+margin-bottom: 20px;
+}
+
+.info-inferior {
+display: flex;
+flex-direction: column;
+}
+
+.badge-tipo {
+background-color: #2a2a2a;
+padding: 4px 10px;
+border-radius: 12px;
+font-size: 12px;
+color: #FF77CD;
+border: 1px solid #444;
+}
+
+.info-tarjeta h3 {
+margin: 10px 0 5px;
+font-size: 18px;
+color: #fff;
+}
+
+.artista_grupo {
+display: flex;
+gap: 7px;
+color: #aaa;
+font-size: 14px;
+margin-bottom: 15px;
+}
+
+.precio {
+font-size: 18px;
+color: #FF77CD;
+margin-bottom: 15px;
+}
+
+.btn-ver, .btn-volver {
+display: inline-block;
+width: 100%;
+text-align: center;
+padding: 10px 0;
+background-color: #2b2b2b;
+color: white;
+text-decoration: none;
+border-radius: 6px;
+transition: background 0.3s;
+box-sizing: border-box;
+border: 1px solid #444;
+}
+
+.btn-ver:hover { background-color: #540059; }
+
+.sin-resultados {
+grid-column: 1 / -1;
+background-color: #1a1a1a;
+padding: 50px 20px;
+text-align: center;
+border-radius: 12px;
+border: 2px dashed #540059;
+}
+
+.sin-resultados h3 {
+color: #FF77CD;
+margin-bottom: 15px;
+font-size: 22px;
+}
+
+.sin-resultados p {
+color: #ccc;
+margin-bottom: 10px;
+font-size: 15px;
+}
+
+.btn-whatsapp-custom {
+display: inline-block;
+background-color: #25D366;
+color: white;
+padding: 12px 25px;
+border-radius: 25px;
+text-decoration: none;
+margin-top: 25px;
+transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-whatsapp-custom:hover {
+background-color: #1ebe57;
+transform: translateY(-3px);
+}
+
+.tabla-inventario {
+width: 100%;
+border-collapse: collapse;
+background-color: #1a1a1a;
+border-radius: 8px;
+overflow: hidden;
+border: 1px solid #333;
+}
+
+.tabla-inventario th,
+.tabla-inventario td {
+padding: 15px;
+text-align: left;
+border-bottom: 1px solid #2a2a2a;
+color: #fff;
+}
+
+.tabla-inventario th {
+background-color: #222222;
+color: #FF77CD;
+text-transform: uppercase;
+font-size: 13px;
+}
+
+.tabla-inventario tr:hover {
+background-color: #252525;
+}
+
+.btn-accion {
+padding: 8px 12px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+font-size: 13px;
+text-decoration: none;
+color: white;
+transition: opacity 0.3s ease;
+}
+
+.btn-editar { background-color: #540059; margin-right: 8px; }
+.btn-editar:hover { background-color: #FF77CD; color: #1a1a1a; }
+.btn-eliminar { background-color: #dc3545; }
+.btn-eliminar:hover { background-color: #c82333; }
+
+/* =========================================
+5. DETALLES DEL PRODUCTO
+========================================= */
+.detalle-container {
+max-width: 1100px;
+margin: 40px auto;
+padding: 30px;
+color: #ffffff;
+background-color: rgba(18, 18, 18, 0.95);
+border-radius: 12px;
+border: 1px solid #333;
+box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.layout-detalle {
+display: flex;
+gap: 40px;
+margin-top: 20px;
+background-color: #1a1a1a;
+padding: 30px;
+border-radius: 12px;
+border: 1px solid #333;
+}
+
+.detalle-imagen {
+flex: 1;
+border-radius: 8px;
+overflow: hidden;
+max-height: 500px;
+background-color: #111;
+}
+
+.detalle-imagen img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+.detalle-info { flex: 1; }
+.artista-destacado { color: #aaa; margin-bottom: 20px; font-size: 18px; }
+.precio-grande { font-size: 28px; color: #FF77CD; margin: 20px 0; }
+.estado-caja { background-color: #222; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #FF77CD; color: #ddd; }
+
+.btn-comprar {
+width: 100%;
+padding: 15px;
+background-color: #FF77CD;
+color: #1a1a1a;
+border: none;
+border-radius: 8px;
+font-size: 16px;
+cursor: pointer;
+margin-top: 20px;
+transition: background-color 0.3s;
+}
+
+.btn-comprar:hover {
+background-color: #ff9de1;
+}
+
+.btn-comprar:disabled { background-color: #444; color: #777; cursor: not-allowed; }
+
+/* =========================================
+6. TÉRMINOS Y CONDICIONES
+========================================= */
+.terminos-header {
+text-align: center;
+margin-bottom: 40px;
+}
+
+.terminos-titulo {
+color: #d400ff;
+margin-bottom: 10px;
+}
+
+.terminos-subtitulo {
+color: #ffffff;
+font-size: 15px;
+}
+
+.terminos-caja {
+background-color: rgba(26, 26, 26, 0.95);
+padding: 40px;
+border-radius: 12px;
+border: 1px solid #333;
+box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+color: #ccc;
+}
+
+.terminos-seccion-titulo {
+color: #f8f9fa;
+border-bottom: 1px solid #333;
+padding-bottom: 10px;
+margin-top: 30px;
+}
+
+.terminos-seccion-titulo:first-of-type {
+margin-top: 0;
+}
+
+.terminos-texto {
+color: #cccccc;
+margin-bottom: 20px;
+}
+
+.terminos-lista {
+color: #cccccc;
+margin-bottom: 30px;
+padding-left: 20px;
+}
+
+.terminos-lista li {
+margin-bottom: 10px;
+}
+
+.instrucciones-divisor {
+border: none;
+border-top: 1px solid #333;
+margin: 40px 0;
+}
+
+.instrucciones-caja {
+background-color: #222;
+padding: 25px;
+border-radius: 8px;
+margin-bottom: 25px;
+}
+
+.instrucciones-titulo {
+color: #f8f9fa;
+margin-top: 0;
+margin-bottom: 15px;
+}
+
+.instrucciones-texto,
+.instrucciones-caja ul,
+.instrucciones-caja ol {
+color: #ccc;
+font-size: 14px;
+}
+
+/* =========================================
+7. PÁGINA DE ERROR 404
+========================================= */
+.contenedor-404 {
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 65vh;
+padding: 40px 20px;
+}
+
+.contenido-404 {
+max-width: 600px;
+background-color: rgba(26, 26, 26, 0.95);
+padding: 60px 40px;
+border-radius: 12px;
+text-align: center;
+border: 1px solid #333;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.numero-404 {
+font-size: 120px;
+margin: 0;
+color: #FF77CD;
+text-shadow: 0 5px 20px rgba(255, 119, 205, 0.4);
+line-height: 1;
+}
+
+.subtitulo-404 {
+color: #f8f9fa;
+font-size: 24px;
+margin: 20px 0 15px;
+}
+
+.texto-404 {
+color: #cccccc;
+font-size: 16px;
+line-height: 1.6;
+margin-bottom: 40px;
+}
+
+.btn-regresar {
+display: inline-block;
+background-color: #540059;
+color: white;
+padding: 15px 35px;
+border-radius: 30px;
+text-decoration: none;
+font-size: 16px;
+transition: all 0.3s ease;
+}
+
+.btn-regresar:hover {
+background-color: #FF77CD;
+color: #1a1a1a;
+transform: translateY(-3px);
+}
+
+/* =========================================
+8. PIE DE PÁGINA (FOOTER)
+========================================= */
+.informacion {
+background-color: #1a1a1a;
+color: #ffffff;
+text-align: center;
+padding: 40px 20px 20px;
+margin-top: auto;
+border-top: 1px solid #333;
+}
+
+.texto-redes {
+font-size: 16px;
+margin-bottom: 25px;
+color: #cccccc;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.redes {
+list-style: none;
+padding: 0;
+margin: 0 0 35px 0;
+display: flex;
+justify-content: center;
+gap: 20px;
+}
+
+.redes a {
+display: flex;
+align-items: center;
+justify-content: center;
+width: 45px;
+height: 45px;
+background-color: #333333;
+border-radius: 50%;
+text-decoration: none;
+transition: background-color 0.3s ease, transform 0.3s ease;
+border: 1px solid #444;
+}
+
+.redes a:hover {
+background-color: #540059;
+transform: translateY(-5px);
+}
+
+.redes img {
+width: 22px;
+height: auto;
+filter: brightness(0) invert(1);
+}
+
+.copyright {
+font-size: 14px;
+color: #888888;
+border-top: 1px solid #333333;
+padding-top: 20px;
+margin: 0;
+}
+
+/* =========================================
+9. MASTERLIST Y ESTADOS
+========================================= */
+.tabla-masterlist th {
+background-color: #3b003f;
+color: #FF77CD;
+font-size: 12px;
+}
+
+.tabla-masterlist td {
+font-size: 13px;
+}
+
+.estado-azul {
+background-color: rgba(0, 168, 255, 0.2);
+color: #00a8ff;
+padding: 4px 8px;
+border-radius: 4px;
+}
+
+.estado-amarillo {
+background-color: rgba(243, 156, 18, 0.2);
+color: #f39c12;
+padding: 4px 8px;
+border-radius: 4px;
+}
+
+.estado-verde {
+background-color: rgba(46, 204, 113, 0.2);
+color: #2ecc71;
+padding: 4px 8px;
+border-radius: 4px;
+}
+
+.texto-verde {
+color: #2ecc71;
+}
+
+.texto-rojo {
+color: #e74c3c;
+}
+
+/* =========================================
+10. FORMULARIOS DE ADMINISTRACIÓN
+========================================= */
+.contenedor-formulario-chico {
+max-width: 700px;
+}
+
+.formulario-admin {
+display: flex;
+flex-direction: column;
+gap: 20px;
+}
+
+.formulario-admin label {
+color: #FF77CD;
+font-size: 14px;
+margin-bottom: 8px;
+display: block;
+}
+
+.form-grupo {
+display: flex;
+flex-direction: column;
+}
+
+.form-fila {
+display: flex;
+gap: 20px;
+flex-wrap: wrap;
+}
+
+.form-columna {
+flex: 1;
+min-width: 200px;
+display: flex;
+flex-direction: column;
+}
+
+.formulario-admin .input-form,
+.formulario-admin .select-estado {
+width: 100%;
+box-sizing: border-box;
+margin: 0;
+}
+
+.btn-formulario {
+margin-top: 10px;
+width: 100%;
+padding: 14px;
+font-size: 15px;
+box-sizing: border-box;
+}
+
+.btn-volver {
+background-color: #333;
+}
+
+.btn-volver:hover {
+background-color: #555;
+color: white;
+}
+
+/* =========================================
+11. CLASES AUXILIARES
+========================================= */
+.contenedor-mediano { max-width: 800px; }
+.contenedor-ancho { max-width: 1200px; }
+.contenedor-extra-ancho { max-width: 1400px; }
+
+.btn-oscuro { background-color: #333; }
+.btn-oscuro:hover { background-color: #555; color: white; }
+.btn-limpiar { background-color: #444; text-decoration: none; text-align: center; }
+.btn-limpiar:hover { background-color: #666; color: white; }
+.btn-whatsapp-grande { font-size: 18px; padding: 15px 30px; background-color: #25D366; }
+.btn-sin-margen { margin: 0; }
+.btn-margen-inferior { margin-bottom: 30px; }
+
+.caja-formulario-inline { background-color: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 40px; border: 1px solid #333; }
+.caja-formulario-inline h3 { color: #FF77CD; margin-top: 0; }
+.form-en-linea { display: flex; gap: 10px; flex-wrap: wrap; }
+.input-flex-1 { flex: 1; min-width: 120px; }
+.input-flex-2 { flex: 2; min-width: 150px; }
+
+.header-acciones { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; align-items: center; }
+.grupo-botones { display: flex; gap: 10px; flex-wrap: wrap; }
+.barra-filtros-derecha { margin: 0; flex-grow: 1; justify-content: flex-end; }
+.input-filtro-largo { max-width: 350px; }
+
+.tabla-min-ancho { min-width: 1000px; }
+.form-en-linea-tabla { display: inline; margin: 0; }
+.td-vacio { text-align: center; padding: 40px; color: #888; }
+.td-folio { color: #FF77CD; font-size: 16px; }
+.td-destacado { color: #FF77CD; }
+.td-blanco-bold { color: #fff; }
+.td-gris { color: #aaa; }
+
+.titulo-centrado { text-align: center; margin-bottom: 30px; }
+.titulo-rosado { color: #FF77CD; margin-bottom: 10px; }
+.texto-gris-claro { color: #cccccc; }
+.texto-gris-chico { font-size: 13px; color: #888; }
+.texto-azul { color: #00a8ff; }
+.texto-disponible { color: #2ecc71; }
+.texto-agotado { color: #e74c3c; }
+.badge-detalle { display: inline-block; margin-bottom: 15px; }
+.cursor-pointer { cursor: pointer; }
+
+.menu-divisor-admin { border-top: 1px solid #444; color: #FF77CD !important; margin-top: 5px; }
+.menu-link-admin { color: #FF77CD !important; }
+
+.carrito-footer { text-align: center; margin-top: 30px; }
+.carrito-total { color: #d400ff; margin-bottom: 20px; }
+.carrito-vacio { text-align: center; color: #888; }
+.carrito-item { display: flex; align-items: center; justify-content: space-between; background-color: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #2a2a2a; }
+.carrito-item-info { display: flex; align-items: center; gap: 15px; }
+.carrito-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; }
+.carrito-item-titulo { margin: 0 0 5px; }
+.carrito-item-precio { margin: 0; color: #888; }
+.btn-eliminar-item { background: none; border: none; color: #dc3545; font-size: 18px; cursor: pointer; }
+.btn-eliminar-item:hover { color: #ff4757; }
+
+/* =========================================
+12. ADAPTACIÓN PARA CELULARES Y TABLETS
+========================================= */
+@media (max-width: 768px) {
+html, body {
+overflow-x: hidden;
+width: 100%;
+}
+
+.encabezado { padding: 0 10px; }
+.logo { height: 60px; }
+.en_derecha { gap: 8px; }
+.input-buscar-mini { width: 80px; font-size: 12px; }
+
+.barra-filtros, .header-acciones {
+    flex-direction: column;
+    align-items: stretch; 
+    gap: 10px;
+    width: 100%;
+}
+
+.input-filtro, .btn-buscar {
+    width: 100%;
+    min-width: unset;
+    box-sizing: border-box;
+}
+
+.admin-container > .btn-primario,
+.grupo-botones .btn-primario {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.caja-formulario-inline .form-en-linea {
+    flex-direction: column;
+}
+
+#contenedor-carrito > div {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+}
+
+.layout-detalle { flex-direction: column; }
+
+.admin-container, .store-container, .detalle-container {
+    padding: 15px;
+    margin: 20px auto;
+    width: 92%;
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+.tabla-scroll {
+    overflow-x: auto;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tabla-inventario th, .tabla-inventario td {
+    white-space: nowrap;
+    padding: 12px 15px; 
+}
+
+.terminos-caja, .instrucciones-caja {
+    padding: 20px;
+}
+}
+
+/* =========================================
+   13. EFECTOS DE ARTÍCULOS AGOTADOS
+   ========================================= */
+.etiqueta-agotado-catalogo {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #e74c3c;
+    color: white;
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    letter-spacing: 1px;
+}
+
+.imagen-opaca {
+    opacity: 0.4;
+    filter: grayscale(100%);
+    transition: all 0.3s;
+}
+
+.tarjeta-agotada {
+    border-color: #444;
+}
+
+.etiqueta-preventa-catalogo {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: #f39c12;
+    color: white;
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    letter-spacing: 1px;
+}

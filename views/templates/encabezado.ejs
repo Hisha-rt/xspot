@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= locals.tituloPagina ? tituloPagina : 'XSPOT' %></title>
+    <link rel="stylesheet" href="/css/estilos.css">
+    
+    <script src="/js/funciones.js" defer></script>
+</head>
+<body>
+    <div class="encabezado">
+        
+        <!-- 1. MENÚ DESPLEGABLE (Izquierda) -->
+        <div class="en_izquierda">
+            <div class="menu-desplegable">
+                <img src="/src/img/menu.png" alt="Menu" class="icono" id="btn-menu" onclick="alternarMenu(event)">
+                
+                <div class="menu-contenido" id="miMenu">
+                    <!-- Sección Pública -->
+                    <a href="/">Inicio</a>
+                    <a href="/catalogo">Catálogo</a>
+                    <a href="/masterlist">Masterlist</a>
+                    <a href="/mi-carrito">Mi Carrito</a>
+                    
+                    <!-- Sección de Administración -->
+                    <a href="/infoProductos" class="menu-divisor-admin">Inventario</a>
+                    <a href="/adminMasterlist" class="menu-link-admin">Pedidos</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. LOGO (Centro) -->
+        <div class="en_centro">
+            <a href="/">
+                <img src="/src/img/logenca.png" alt="Logo XSPOT" class="logo cursor-pointer">
+            </a>
+        </div>
+
+        <!-- 3. BUSCADOR Y MASTERLIST (Derecha) -->
+        <div class="en_derecha">
+            <form action="/catalogo" method="GET" class="buscador-header">
+                <input type="text" name="grupo" placeholder="Hoy quiero..." class="input-buscar-mini">
+                <button type="submit" class="btn-icono">
+                    <img src="/src/img/buscar.png" alt="Buscar" class="icono">
+                </button>
+            </form>
+            
+            <a href="/masterlist" title="Ver Masterlist General">
+                <img src="/src/img/masterlist.png" alt="Masterlist" class="icono">
+            </a>
+        </div>
+    </div>

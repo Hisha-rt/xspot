@@ -1,0 +1,80 @@
+<%- include('../templates/encabezado', { tituloPagina: 'Agregar Producto' }) %>
+
+<main class="admin-container contenedor-formulario-chico">
+    <h2 class="titulo-centrado">Agregar Producto</h2>
+    
+    <form action="/crear" method="POST" class="formulario-admin" enctype="multipart/form-data">
+        
+        <div class="form-grupo">
+            <label for="nombre">Nombre del Artículo:</label>
+            <input type="text" id="nombre" name="nombre" class="input-form" placeholder="Ej. Photocard Perfume - POB" required>
+        </div>
+
+        <div class="form-fila">
+            <div class="form-columna">
+                <label for="artista">Artista:</label>
+                <input type="text" id="artista" name="artista" class="input-form" placeholder="Ej. Baekhyun, Doyoung..." required>
+            </div>
+            
+            <div class="form-columna">
+                <label for="grupo">Grupo:</label>
+                <input type="text" id="grupo" name="grupo" class="input-form" placeholder="Ej. EXO, NCT..." required>
+            </div>
+        </div>
+
+        <div class="form-grupo">
+            <label for="tipo">Tipo de Mercancía:</label>
+            <select id="tipo" name="tipo" class="select-estado" required>
+                <option value="Photocard">Photocard</option>
+                <option value="Álbum">Álbum</option>
+                <option value="Merch Oficial">Merch Oficial</option>
+                <option value="Otro">Otro</option>
+            </select>
+        </div>
+
+        <div class="form-fila">
+            <div class="form-columna">
+                <label for="precio">Precio (MXN):</label>
+                <input type="number" step="0.01" id="precio" name="precio" class="input-form" placeholder="350.00" required>
+            </div>
+            
+            <div class="form-columna">
+                <label for="stock">Cantidad en Stock:</label>
+                <input type="number" id="stock" name="stock" class="input-form" value="1" required>
+            </div>
+        </div>
+
+        <div class="form-grupo">
+            <label for="versiones">Versiones (Opcional, separadas por coma):</label>
+            <input type="text" id="versiones" name="versiones" class="input-form" placeholder="Ej. Ver. A, Ver. B, Digipack">
+        </div>
+
+        <div class="form-grupo">
+            <label for="descripcion">Descripción y Detalles (Inclusiones):</label>
+            <textarea id="descripcion" name="descripcion" class="input-form" rows="4" placeholder="Ej. Incluye photobook de 80p, 1 photocard al azar, 1 poster doblado..."></textarea>
+        </div>
+
+        <div class="form-grupo">
+            <label for="estado_go">Estado del Group Order (GO):</label>
+            <select id="estado_go" name="estado_go" class="select-estado">
+                <option value="Stock">En Stock (Listo para envío)</option>
+                <option value="Pre-venta">Pre-venta</option>
+                <option value="Comprado">Comprado</option>
+                <option value="En aduana">En aduana</option>
+                <option value="Envíos nacionales">Envíos nacionales</option>
+                <option value="Agotado">Agotado</option>
+            </select>
+        </div>
+
+        <div class="form-grupo">
+            <label for="imagen_url">Subir Foto del Producto:</label>
+            <input type="file" id="imagen_url" name="imagen_url" class="input-form" accept="image/*">
+        </div>
+
+        <button type="submit" class="btn-primario btn-formulario">
+            Guardar Producto
+        </button>
+    </form>
+</main>
+
+<%- include('../templates/pieDePagina') %>

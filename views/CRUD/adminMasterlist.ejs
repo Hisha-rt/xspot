@@ -1,0 +1,86 @@
+<%- include('../templates/encabezado', { tituloPagina: 'Admin - Masterlist' }) %>
+
+<main class="admin-container contenedor-ancho">
+    <h2>Control de Pedidos (Masterlist)</h2>
+    
+    <!-- Botón para ir al inventario normal -->
+    <a href="/infoProductos" class="btn-primario btn-oscuro btn-margen-inferior">Ver Inventario Físico</a>
+
+    <!-- Formulario para agregar un nuevo pedido -->
+    <div class="caja-formulario-inline">
+        <h3>+ Registrar Nuevo Pedido</h3>
+        <form action="/adminMasterlist/crear" method="POST" class="form-en-linea">
+            <input type="text" name="folio" placeholder="Folio (Ej. AR-001)" class="input-form input-flex-1" required>
+            <input type="text" name="usuario" placeholder="Usuario / Red Social" class="input-form input-flex-1" required>
+            
+            <select name="categoria" class="select-estado input-flex-1">
+                <option value="Álbum">Álbum</option>
+                <option value="Photocard">Photocard</option>
+                <option value="Merch">Merch</option>
+            </select>
+            
+            <input type="text" name="producto" placeholder="Producto" class="input-form input-flex-2" required>
+            <input type="text" name="grupo_artista" placeholder="Grupo/Artista" class="input-form input-flex-1" required>
+            
+            <button type="submit" class="btn-primario btn-sin-margen">Registrar</button>
+        </form>
+    </div>
+
+    <!-- Tabla de Gestión de la Masterlist -->
+    <div class="tabla-scroll">
+        <table class="tabla-inventario">
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Usuario</th>
+                    <th>Categoría</th>
+                    <th>Producto</th>
+                    <th>Grupo / Artista</th>
+                    <th>Estatus Envío</th>
+                    <th>Estatus Pago</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% pedidos.forEach(pedido => { %>
+                    <tr>
+                        <td class="td-folio"><%= pedido.folio %></td>
+                        <td><%= pedido.usuario %></td>
+                        <td><%= pedido.categoria %></td>
+                        <td><%= pedido.producto %></td>
+                        <td><%= pedido.grupo_artista %></td>
+                        
+                        <td>
+                            <form action="/adminMasterlist/actualizar/<%= pedido.id %>" method="POST">
+                                <select name="estatus_envio" class="select-estado" onchange="this.form.submit()">
+                                    <option value="Comprado" <%= pedido.estatus_envio === 'Comprado' ? 'selected' : '' %>>Comprado</option>
+                                    <option value="Bodega Corea" <%= pedido.estatus_envio === 'Bodega Corea' ? 'selected' : '' %>>Bodega Corea</option>
+                                    <option value="En Tránsito" <%= pedido.estatus_envio === 'En Tránsito' ? 'selected' : '' %>>En Tránsito</option>
+                                    <option value="En México" <%= pedido.estatus_envio === 'En México' ? 'selected' : '' %>>En México</option>
+                                    <option value="Enviado/Entregado" <%= pedido.estatus_envio === 'Enviado/Entregado' ? 'selected' : '' %>>Enviado/Entregado</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/adminMasterlist/actualizar/<%= pedido.id %>" method="POST">
+                                <select name="estatus_pago" class="select-estado" onchange="this.form.submit()">
+                                    <option value="Pendiente" <%= pedido.estatus_pago === 'Pendiente' ? 'selected' : '' %>>Pendiente</option>
+                                    <option value="Liquidado Producto" <%= pedido.estatus_pago === 'Liquidado Producto' ? 'selected' : '' %>>Liquidado Producto</option>
+                                    <option value="Liquidado Total" <%= pedido.estatus_pago === 'Liquidado Total' ? 'selected' : '' %>>Liquidado Total</option>
+                                </select>
+                            </form>
+                        </td>
+                        
+                        <td>
+                            <form action="/adminMasterlist/eliminar/<%= pedido.id %>" method="POST" class="form-en-linea-tabla">
+                                <button type="submit" class="btn-accion btn-eliminar" onclick="return confirm('¿Segura que deseas eliminar este folio?');">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<%- include('../templates/pieDePagina') %>

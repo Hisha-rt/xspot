@@ -1,0 +1,79 @@
+<%- include('../templates/encabezado', { tituloPagina: 'Modificar Producto' }) %>
+
+<main class="admin-container contenedor-formulario-chico">
+    <h2 class="titulo-centrado">Editar Info. Producto</h2>
+    <form action="/editar/<%= producto.id %>" method="POST" class="formulario-admin">
+        
+        <div class="form-grupo">
+            <label for="nombre">Nombre del Artículo:</label>
+            <input type="text" id="nombre" name="nombre" class="input-form" value="<%= producto.nombre %>" required>
+        </div>
+
+        <div class="form-fila">
+            <div class="form-columna">
+                <label for="artista">Artista:</label>
+                <input type="text" id="artista" name="artista" class="input-form" value="<%= producto.artista %>" required>
+            </div>
+            
+            <div class="form-columna">
+                <label for="grupo">Grupo:</label>
+                <input type="text" id="grupo" name="grupo" class="input-form" value="<%= producto.grupo %>" required>
+            </div>
+        </div>
+
+        <div class="form-grupo">
+            <label for="tipo">Tipo de Mercancía:</label>
+            <select id="tipo" name="tipo" class="select-estado" required>
+                <option value="Photocard" <%= producto.tipo === 'Photocard' ? 'selected' : '' %>>Photocard</option>
+                <option value="Álbum" <%= producto.tipo === 'Álbum' ? 'selected' : '' %>>Álbum</option>
+                <option value="Merch Oficial" <%= producto.tipo === 'Merch Oficial' ? 'selected' : '' %>>Merch Oficial</option>
+                <option value="Otro" <%= producto.tipo === 'Otro' ? 'selected' : '' %>>Otro</option>
+            </select>
+        </div>
+
+        <div class="form-fila">
+            <div class="form-columna">
+                <label for="precio">Precio (MXN):</label>
+                <input type="number" step="0.01" id="precio" name="precio" class="input-form" value="<%= producto.precio %>" required>
+            </div>
+            
+            <div class="form-columna">
+                <label for="stock">Cantidad en Stock:</label>
+                <input type="number" id="stock" name="stock" class="input-form" value="<%= producto.stock %>" required>
+            </div>
+        </div>
+
+        <div class="form-grupo">
+            <label for="versiones">Versiones (Opcional, separadas por coma):</label>
+            <input type="text" id="versiones" name="versiones" class="input-form" value="<%= producto.versiones || '' %>">
+        </div>
+
+        <div class="form-grupo">
+            <label for="descripcion">Descripción y Detalles (Inclusiones):</label>
+            <textarea id="descripcion" name="descripcion" class="input-form" rows="4"><%= producto.descripcion || '' %></textarea>
+        </div>
+
+        <div class="form-grupo">
+            <label for="estado_go">Estado del Group Order (GO):</label>
+            <select id="estado_go" name="estado_go" class="select-estado">
+                <option value="Stock" <%= producto.estado_go === 'Stock' ? 'selected' : '' %>>En Stock</option>
+                <option value="Pre-venta" <%= producto.estado_go === 'Pre-venta' ? 'selected' : '' %>>Pre-venta</option>
+                <option value="Comprado" <%= producto.estado_go === 'Comprado' ? 'selected' : '' %>>Comprado</option>
+                <option value="En aduana" <%= producto.estado_go === 'En aduana' ? 'selected' : '' %>>En aduana</option>
+                <option value="Envíos nacionales" <%= producto.estado_go === 'Envíos nacionales' ? 'selected' : '' %>>Envíos nacionales</option>
+                <option value="Agotado" <%= producto.estado_go === 'Agotado' ? 'selected' : '' %>>Agotado</option>
+            </select>
+        </div>
+
+        <div class="form-grupo">
+            <label for="imagen_url">Ruta de la Imagen:</label>
+            <input type="text" id="imagen_url" name="imagen_url" class="input-form" value="<%= producto.imagen_url || '' %>">
+        </div>
+        
+        <button type="submit" class="btn-primario btn-formulario">Actualizar Producto</button>
+        
+        <a href="/infoProductos" class="btn-volver btn-formulario">Cancelar / Volver</a>
+    </form>
+</main>
+
+<%- include('../templates/pieDePagina') %>

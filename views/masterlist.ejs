@@ -1,0 +1,77 @@
+<%- include('templates/encabezado', { tituloPagina: 'Masterlist - Estado de Pedidos' }) %>
+
+<main class="store-container contenedor-extra-ancho">
+    
+    <div class="titulo-centrado">
+        <h1 class="titulo-rosado">Masterlist General</h1>
+        <p class="texto-gris-claro">
+            Busca el estado de tu pedido utilizando tu <strong>Folio Único</strong> (ej. XS-777).<br>
+            <span class="texto-gris-chico">Si no conoces tu folio, envíanos un mensaje por WhatsApp.</span>
+        </p>
+    </div>
+
+    <form action="/masterlist" method="GET" class="barra-filtros">
+        <input type="text" name="folio" placeholder="Ingresa tu folio exacto..." class="input-filtro" value="<%= locals.folioBuscado ? folioBuscado : '' %>">
+        
+        <button type="submit" class="btn-buscar">Buscar Pedido</button>
+        <a href="/masterlist" class="btn-buscar btn-oscuro">Ver Todos</a>
+    </form>
+
+    <div class="tabla-scroll">
+        <table class="tabla-inventario tabla-masterlist tabla-min-ancho">
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Usuario</th>
+                    <th>Categoría</th>
+                    <th>Producto</th>
+                    <th>Grupo y/o Artista</th>
+                    <th>Estatus de envío</th>
+                    <th>Estatus de pago</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (pedidos && pedidos.length > 0) { %>
+                    <% pedidos.forEach(pedido => { %>
+                        <tr>
+                            <td class="td-folio"><%= pedido.folio %></td>
+                            <td><%= pedido.usuario %></td>
+                            <td><span class="badge-tipo"><%= pedido.categoria %></span></td>
+                            <td class="td-blanco-bold"><%= pedido.producto %></td>
+                            <td class="td-gris"><%= pedido.grupo_artista %></td>
+                            
+                            <td>
+                                <% 
+                                    let claseEnvio = 'estado-amarillo';
+                                    if (pedido.estatus_envio === 'Enviado/Entregado') {
+                                        claseEnvio = 'estado-verde';
+                                    } else if (pedido.estatus_envio === 'En México') {
+                                        claseEnvio = 'estado-azul';
+                                    }
+                                %>
+                                <span class="<%= claseEnvio %>"><%= pedido.estatus_envio %></span>
+                            </td>
+
+                            <td>
+                                <% if (pedido.estatus_pago.includes('Liquidado')) { %>
+                                    <span class="texto-verde">✔ <%= pedido.estatus_pago %></span>
+                                <% } else { %>
+                                    <span class="texto-rojo">⚠ <%= pedido.estatus_pago %></span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="7" class="td-vacio">
+                            No se encontraron pedidos en la Masterlist. Verifica que tu folio esté escrito correctamente.
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+<%- include('templates/pieDePagina') %>

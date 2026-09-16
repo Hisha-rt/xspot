@@ -1,0 +1,72 @@
+<%- include('templates/encabezado', { tituloPagina: 'Información producto' }) %>
+
+<main class="detalle-container">
+    <a href="/catalogo" class="btn-volver">← Volver al catálogo</a>
+    
+    <div class="layout-detalle">
+        <div class="detalle-imagen">
+            <img src="<%= producto.imagen_url || '/src/img/placeholder.png' %>" alt="<%= producto.nombre %>">
+        </div>
+        
+        <div class="detalle-info">
+            <span class="badge-tipo badge-detalle"><%= producto.tipo %></span>
+            <h1><%= producto.nombre %></h1>
+            
+            <h2 class="artista-destacado" style="color: #aaa; margin-bottom: 20px; font-size: 18px;">
+                <%= producto.artista %> - <%= producto.grupo %>
+            </h2>
+            
+            <p class="precio-grande">$<%= producto.precio %> MXN</p>
+            
+            <div class="estado-caja">
+                <strong>Estado actual:</strong> 
+                <span class="texto-azul"><%= producto.estado_go %></span>
+            </div>
+            
+            <div class="stock-info">
+                <% if (producto.stock > 0 && producto.estado_go === 'Pre-Venta') { %>
+                    <p class="texto-disponible" style="color: #f39c12;">Disponible en Pre-Venta</p>
+                <% } else if (producto.stock > 0 && producto.estado_go !== 'Agotado') { %>
+                    <p class="texto-disponible">✓ Disponible (<%= producto.stock %> en stock)</p>
+                <% } else { %>
+                    <p class="texto-agotado">✗ Agotado por el momento</p>
+                <% } %>
+            </div>
+
+            <% if (producto.versiones) { %>
+                <div style="margin-bottom: 20px;">
+                    <label for="versionElegida" style="display: block; margin-bottom: 5px; color: #aaa;">Elige una versión:</label>
+                    <select id="versionElegida" class="select-estado" style="width: 100%;">
+                        <% producto.versiones.split(',').forEach(version => { %>
+                            <option value="<%= version.trim() %>"><%= version.trim() %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            <% } else { %>
+                <input type="hidden" id="versionElegida" value="Estándar">
+            <% } %>
+
+            <div style="margin-bottom: 20px;">
+                <label for="cantidadProducto" style="display: block; margin-bottom: 5px; color: #aaa;">Cantidad:</label>
+                <input type="number" id="cantidadProducto" class="input-form" value="1" min="1" max="<%= producto.stock %>" <%= (producto.stock === 0 || producto.estado_go === 'Agotado') ? 'disabled' : '' %> style="width: 100px;">
+            </div>
+
+            <button class="btn-comprar" 
+                <%= (producto.stock === 0 || producto.estado_go === 'Agotado') ? 'disabled' : '' %>
+                onclick="prepararCarrito('<%= producto.id %>', '<%= producto.nombre %>', '<%= producto.precio %>', '<%= producto.imagen_url %>')">
+                Agregar a mi lista
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px; background-color: #1a1a1a; padding: 30px; border-radius: 12px; border: 1px solid #333;">
+        <h3 style="color: #FF77CD; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 10px;">Detalles e Inclusiones</h3>
+        <div style="color: #ccc; line-height: 1.6; white-space: pre-line;">
+            <%= producto.descripcion || 'No hay detalles adicionales para este artículo en este momento.' %>
+        </div>
+    </div>
+
+    <script src="/js/carrito.js"></script>
+</main>
+
+<%- include('templates/pieDePagina') %>

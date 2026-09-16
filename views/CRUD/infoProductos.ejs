@@ -1,0 +1,68 @@
+<%- include('../templates/encabezado', { tituloPagina: 'Mercancía - Inventario' }) %>
+
+<main class="admin-container">
+    <h2>Control de Inventario Físico</h2>
+    
+    <div class="header-acciones">
+        <div class="grupo-botones">
+            <a href="/crear" class="btn-primario btn-sin-margen">+ Agregar Producto</a>
+            <a href="/adminMasterlist" class="btn-primario btn-sin-margen btn-oscuro">Ir a Masterlist</a>
+        </div>
+        
+        <form action="/infoProductos" method="GET" class="barra-filtros barra-filtros-derecha">
+            <input type="text" name="busqueda" placeholder="Buscar nombre, artista o grupo..." class="input-filtro input-filtro-largo" value="<%= locals.busqueda ? busqueda : '' %>">
+            <button type="submit" class="btn-buscar">Buscar</button>
+            <a href="/infoProductos" class="btn-buscar btn-limpiar">Limpiar</a>
+        </form>
+    </div>
+    
+    <div class="tabla-scroll">
+        <table class="tabla-inventario">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Artista</th>
+                    <th>Grupo</th>
+                    <th>Stock</th>
+                    <th>Estado / GO</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (productos && productos.length > 0) { %>
+                    <% productos.forEach(producto => { %>
+                    <tr>
+                        <td class="td-destacado"><%= producto.nombre %></td>
+                        <td><%= producto.artista %></td>
+                        <td><%= producto.grupo %></td>
+                        <td><%= producto.stock %></td>
+                        <td>
+                            <form action="/estado/<%= producto.id %>" method="POST" class="form-en-linea-tabla">
+                                <select name="estado_go" class="select-estado" onchange="this.form.submit()">
+                                    <option value="Stock" <%= producto.estado_go === 'Stock' ? 'selected' : '' %>>Stock</option>
+                                    <option value="Pre-Venta" <%= producto.estado_go === 'Pre-Venta' ? 'selected' : '' %>>Pre-Venta</option>
+                                    <option value="Agotado" <%= producto.estado_go === 'Agotado' ? 'selected' : '' %>>Agotado</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="/editar/<%= producto.id %>" class="btn-accion btn-editar">Editar</a>
+                            <form action="/eliminar/<%= producto.id %>" method="POST" class="form-en-linea-tabla">
+                                <button type="submit" class="btn-accion btn-eliminar" onclick="return confirm('¿Seguro que deseas eliminar este artículo?')">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="6" class="td-vacio">
+                            No se encontraron productos con esa búsqueda.
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div> 
+</main>
+
+<%- include('../templates/pieDePagina') %>

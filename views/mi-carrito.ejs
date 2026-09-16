@@ -1,0 +1,63 @@
+<%- include('templates/encabezado', { tituloPagina: 'Mi Carrito' }) %>
+
+<main class="store-container contenedor-mediano">
+    <h1 class="titulo-centrado">Mi Lista de Pedido</h1>
+    
+    <div id="contenedor-carrito">
+    </div>
+    
+    <div class="carrito-footer">
+        <h3 id="total-carrito" class="carrito-total"></h3>
+        <button onclick="enviarPorWhatsApp()" class="btn-primario btn-whatsapp-grande">
+            Pedir por WhatsApp
+        </button>
+    </div>
+</main>
+
+<script src="/js/carrito.js"></script>
+<script>
+    function mostrarCarrito() {
+        let carrito = JSON.parse(localStorage.getItem('xspot_carrito')) || [];
+        let contenedor = document.getElementById('contenedor-carrito');
+        let totalElemento = document.getElementById('total-carrito');
+        
+        if (carrito.length === 0) {
+            contenedor.innerHTML = '<p class="carrito-vacio">No tienes artículos en tu lista aún.</p>';
+            totalElemento.innerText = '';
+            return;
+        }
+
+        let html = '';
+        let total = 0;
+
+        carrito.forEach((item, index) => {
+            total += (parseFloat(item.precio) * item.cantidad);
+            html += `
+                <div class="carrito-item">
+                    <div class="carrito-item-info">
+                        <img src="${item.imagen || '/src/img/placeholder.png'}" class="carrito-item-img">
+                        <div>
+                            <h4 class="carrito-item-titulo">${item.nombre}</h4>
+                            <p class="carrito-item-precio">${item.cantidad} x $${item.precio}</p>
+                        </div>
+                    </div>
+                    <button onclick="eliminarItem(${index})" class="btn-eliminar-item">🗑️</button>
+                </div>
+            `;
+        });
+
+        contenedor.innerHTML = html;
+        totalElemento.innerText = `Total: $${total.toFixed(2)} MXN`;
+    }
+
+    function eliminarItem(index) {
+        let carrito = JSON.parse(localStorage.getItem('xspot_carrito')) || [];
+        carrito.splice(index, 1);
+        localStorage.setItem('xspot_carrito', JSON.stringify(carrito));
+        mostrarCarrito();
+    }
+
+    mostrarCarrito();
+</script>
+
+<%- include('templates/pieDePagina') %>
