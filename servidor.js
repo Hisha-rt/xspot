@@ -5,11 +5,13 @@ const db = require('./config/db');
 const sequelize = require('./config/db');
 const Producto = require('./models/Producto');
 const Pedido = require('./models/Pedido'); // <-- ¡Agrega esta línea!
+const cookieParser = require('cookie-parser');
 
 // Middlewares
 aplicacion.use(express.urlencoded({ extended: false }));
 aplicacion.use(express.json());
 aplicacion.use(express.static(__dirname + '/public'));
+aplicacion.use(cookieParser());
 
 // Motor de plantillas
 aplicacion.set('view engine', 'ejs');

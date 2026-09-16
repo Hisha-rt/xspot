@@ -6,7 +6,7 @@ const Pedido = require('../models/Pedido');
 const upload = require('../config/cloudinary');
 
 // ==========================================
-// --- 1. RUTAS PÚBLICAS (PARA COMPRADORES) ---
+// --- 1. RUTAS PUBLICAS (PARA COMPRADORES) ---
 // ==========================================
 
 router.get('/', (req, res) => {
@@ -21,7 +21,7 @@ router.get('/mi-carrito', (req, res) => {
     res.render('mi-carrito'); 
 });
 
-// Catálogo con todos los filtros incluidos
+// Catalogo con todos los filtros incluidos
 router.get('/catalogo', async (req, res) => {
     try {
         const { tipo, grupo, estado_go } = req.query;
@@ -31,7 +31,7 @@ router.get('/catalogo', async (req, res) => {
             condiciones.tipo = tipo;
         }
         
-        // Búsqueda dual por artista o grupo
+        // Busqueda dual por artista o grupo
         if (grupo) {
             condiciones[Op.or] = [
                 { artista: { [Op.like]: `%${grupo}%` } },
@@ -47,7 +47,7 @@ router.get('/catalogo', async (req, res) => {
         res.render('catalogo', { productos, filtrosActuales: { tipo, grupo, estado_go } });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error cargando el catálogo');
+        res.status(500).send('Error cargando el catalogo');
     }
 });
 
@@ -87,10 +87,18 @@ router.get('/masterlist', async (req, res) => {
 
 
 // ==========================================
-// --- 2. RUTAS DE ADMINISTRACIÓN (INVENTARIO) ---
+// --- 2. RUTAS DE ADMINISTRACION (INVENTARIO) ---
 // ==========================================
 
-router.get('/infoProductos', async (req, res) => {
+const verificarAdmin = (req, res, next) => {
+    if (req.cookies.adminAuth === process.env.ADMIN_PASS) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
+router.get('/infoProductos', verificarAdmin, async (req, res) => {
     try {
         const { busqueda } = req.query;
         let condiciones = {};
@@ -117,12 +125,12 @@ router.get('/infoProductos', async (req, res) => {
     }
 });
 
-router.get('/crear', (req, res) => {
+router.get('/crear', verificarAdmin, (req, res) => {
     res.render('CRUD/crear'); 
 });
 
 // Ruta modificada para subir la imagen a Cloudinary al crear
-router.post('/crear', upload.single('imagen_url'), async (req, res) => {
+router.post('/crear', verificarAdmin, upload.single('imagen_url'), async (req, res) => {
     try {
         const datosProducto = req.body;
         
@@ -138,13 +146,13 @@ router.post('/crear', upload.single('imagen_url'), async (req, res) => {
     }
 });
 
-router.get('/editar/:id', async (req, res) => {
+router.get('/editar/:id', verificarAdmin, async (req, res) => {
     const producto = await Producto.findByPk(req.params.id);
     res.render('CRUD/editar', { producto });
 });
 
 // Ruta modificada para subir una imagen nueva al editar
-router.post('/editar/:id', upload.single('imagen_url'), async (req, res) => {
+router.post('/editar/:id', verificarAdmin, upload.single('imagen_url'), async (req, res) => {
     try {
         const datosActualizados = req.body;
         
@@ -160,12 +168,26 @@ router.post('/editar/:id', upload.single('imagen_url'), async (req, res) => {
     }
 });
 
-router.post('/eliminar/:id', async (req, res) => {
+router.get('/login', (req, res) => {
+    res.render('login');
+});
+
+router.post('/login', (req, res) => {
+    const contrasenaIngresada = req.body.password;
+    if (contrasenaIngresada === process.env.ADMIN_PASS) {
+        res.cookie('adminAuth', process.env.ADMIN_PASS, { httpOnly: true });
+        res.redirect('/adminMasterlist');
+    } else {
+        res.redirect('/login');
+    }
+});
+
+router.post('/eliminar/:id', verificarAdmin, async (req, res) => {
     await Producto.destroy({ where: { id: req.params.id } });
     res.redirect('/infoProductos');
 });
 
-router.post('/estado/:id', async (req, res) => {
+router.post('/estado/:id', verificarAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         const { estado_go } = req.body;
@@ -187,27 +209,27 @@ router.post('/estado/:id', async (req, res) => {
 // --- 3. PANEL ADMIN: MASTERLIST DE PEDIDOS ---
 // ==========================================
 
-router.get('/adminMasterlist', async (req, res) => {
+router.get('/adminMasterlist', verificarAdmin, async (req, res) => {
     const pedidos = await Pedido.findAll({ order: [['createdAt', 'DESC']] });
     res.render('CRUD/adminMasterlist', { pedidos });
 });
 
-router.post('/adminMasterlist/crear', async (req, res) => {
+router.post('/adminMasterlist/crear', verificarAdmin, async (req, res) => {
     try {
         await Pedido.create(req.body);
         res.redirect('/adminMasterlist');
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error guardando el pedido (Revisa que el folio no esté repetido)');
+        res.status(500).send('Error guardando el pedido (Revisa que el folio no este repetido)');
     }
 });
 
-router.post('/adminMasterlist/actualizar/:id', async (req, res) => {
+router.post('/adminMasterlist/actualizar/:id', verificarAdmin, async (req, res) => {
     await Pedido.update(req.body, { where: { id: req.params.id } });
     res.redirect('/adminMasterlist');
 });
 
-router.post('/adminMasterlist/eliminar/:id', async (req, res) => {
+router.post('/adminMasterlist/eliminar/:id', verificarAdmin, async (req, res) => {
     await Pedido.destroy({ where: { id: req.params.id } });
     res.redirect('/adminMasterlist');
 });
